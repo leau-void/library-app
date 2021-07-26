@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Leau's Library App</title>
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+    <script src="scripts/script.js" defer></script>
+
+  </head>
+  <body>
+    <div id="popup-background" class="visually-hidden"></div>
+    <button id="new-book-btn">New Book</button>
+    <form class="visually-hidden" id="new-book-form">
+      <input id="name" name="name">
+      <input id="author" name="author">
+      <input id="pages" type="number" min="1" name="pages">
+      <input id="read" type="checkbox" name="read">
+      <input type="submit" id="submit-btn" value="Add new book">
+      <input type="reset" id="reset-btn" value="Cancel">
+      
+    </form>
+
+    <div id="container">
+    </div>
+
+  </body>
+</html>
