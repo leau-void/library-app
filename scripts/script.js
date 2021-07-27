@@ -1,5 +1,9 @@
 let myLibrary = [];
 
+Book.prototype.toggleRead = function(book) {
+  return Object.getPrototypeOf(book).read = !book.read;
+}
+
 
 addBookToLibrary("NDDF", "Jean Genet", 386, true);
 
@@ -12,9 +16,7 @@ Book.prototype.giveInfo = function () {
   return `${this.name} is a book by ${this.author}. It has ${this.pages} and I have ${readText} it`
 }
 
-Book.prototype.toogleRead = function() {
-  
-}
+
 
 // console.log((Object.getPrototypeOf(myLibrary[0])))
 
@@ -63,6 +65,24 @@ function displayBook(book, index) {
   for (let key in book) {
 
     if ({}.hasOwnProperty.call(Object.getPrototypeOf(book), key)) {
+      if (key === "read") {
+        const labelOut = document.createElement("label");
+        labelOut.classList.add("label-read");
+        labelOut.textContent = "Read?";
+        const labelIn = document.createElement("label");
+        labelIn.classList.add("switch");
+        const input = document.createElement("input");
+        input.setAttribute("type", "checkbox");
+        input.checked = book[key];
+        labelIn.appendChild(input);
+        const span = document.createElement("span");
+        span.classList.add("slider", "round");
+        labelIn.appendChild(span);
+        labelOut.appendChild(labelIn);
+        newBook.appendChild(labelOut);
+        continue;
+      }
+      
     const displayKey = document.createElement("div");
     displayKey.classList.add(`${key}`);
     displayKey.textContent = book[key];
@@ -77,6 +97,7 @@ function displayBook(book, index) {
   newBook.appendChild(removeBtn);
 
   document.querySelector("#container").appendChild(newBook);
+  newBook.querySelector(`input`).addEventListener("change", () => book.toggleRead(book));
 }
 
 
