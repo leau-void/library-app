@@ -1,12 +1,22 @@
 let myLibrary = [];
 
-//Object.defineProperty(Book.prototype, "")
 
 addBookToLibrary("NDDF", "Jean Genet", 386, true);
 
 addBookToLibrary("the last of the summer wine", "adkdk asda", 342, false);
 
 document.querySelector("#new-book-btn").addEventListener("click", showNewBookForm);
+
+Book.prototype.giveInfo = function () {
+  let readText = (this.read) ? "read" : "not read";
+  return `${this.name} is a book by ${this.author}. It has ${this.pages} and I have ${readText} it`
+}
+
+console.log((Object.getPrototypeOf(myLibrary[0])))
+
+console.log(myLibrary[0] instanceof Book)
+
+
 
 function Book(name, author, pages, read) {
   this.name = capitalize(name);
@@ -15,35 +25,48 @@ function Book(name, author, pages, read) {
   this.read = read;
 }
 
-Book.prototype.giveInfo = function () {
-  let readText = (this.read) ? "read" : "not read";
-  return `${this.name} is a book by ${this.author}. It has ${this.pages} and I have ${readText} it`
-}
+
 
 function addBookToLibrary(name, author, pages, read) {
   myLibrary[myLibrary.length] = Object.create(new Book(name, author, pages, read))
   updateDisplay();
+
+  document.querySelector("#container").removeEventListener("click", removeBook)
+
+  document.querySelector("#container").addEventListener("click", removeBook)
 }
 
 function updateDisplay() {
   document.querySelectorAll(".books").forEach(book => book.remove());
 
-  myLibrary.forEach(book => displayBook(book));
+  myLibrary.forEach((book, index) => displayBook(book, index));
 }
 
-function displayBook(book) {
+function removeBook(e) {
+  if (!e.target.classList.contains("remove-book-btn")) return;
+  const targetIndex = e.target.dataset.index;
+  console.log(targetIndex)
+} 
+
+function displayBook(book, index) {
   const newBook = document.createElement("div");
   newBook.classList.add("books");
 
   for (let key in book) {
-    if (book.hasOwnProperty(key)) {
+
+    if ({}.hasOwnProperty.call(Object.getPrototypeOf(book), key)) {
     const displayKey = document.createElement("div");
     displayKey.classList.add(`${key}`);
     displayKey.textContent = book[key];
     newBook.appendChild(displayKey);
     }
   }
-  
+
+  const removeBtn = document.createElement("button");
+  removeBtn.textContent = "X";
+  removeBtn.classList.add("remove-book-btn");
+  removeBtn.setAttribute("data-index", index);
+  newBook.appendChild(removeBtn);
 
   document.querySelector("#container").appendChild(newBook);
 }
@@ -64,7 +87,8 @@ function hideForm() {
 function getFormValues(e) {
   e.preventDefault();
   const form = document.forms[0];
-  addBookToLibrary(form.name.value, form.author.value, form.pages.value, form.read.checked)
+  addBookToLibrary(form.name.value, form.author.value, form.pages.value, form.read.checked);
+  form.reset();
   hideForm();
 }
 

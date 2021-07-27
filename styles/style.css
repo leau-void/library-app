@@ -50,6 +50,12 @@ body {
   font-size: 1.5rem;
 }
 
+.remove-book-btn {
+  border: 1px solid black;
+  color: black;
+  background-color: transparent;
+}
+
 form {
 
   z-index: 100;
