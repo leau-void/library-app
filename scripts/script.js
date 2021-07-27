@@ -1,7 +1,7 @@
 let myLibrary = [];
 
 Book.prototype.toggleRead = function(book) {
-  return Object.getPrototypeOf(book).read = !book.read;
+  return book.read = !book.read;
 }
 
 
@@ -17,13 +17,6 @@ Book.prototype.giveInfo = function () {
 }
 
 
-
-// console.log((Object.getPrototypeOf(myLibrary[0])))
-
-// console.log(myLibrary[0] instanceof Book)
-
-
-
 function Book(name, author, pages, read) {
   this.name = capitalize(name);
   this.author = capitalize(author);
@@ -33,9 +26,8 @@ function Book(name, author, pages, read) {
 
 
 function addBookToLibrary(name, author, pages, read) {
-  myLibrary[myLibrary.length] = Object.create(new Book(name, author, pages, read))
+  myLibrary[myLibrary.length] = new Book(name, author, pages, read)
   updateDisplay();
-
 }
 
 
@@ -64,7 +56,7 @@ function displayBook(book, index) {
 
   for (let key in book) {
 
-    if ({}.hasOwnProperty.call(Object.getPrototypeOf(book), key)) {
+    if ({}.hasOwnProperty.call(book, key)) {
       if (key === "read") {
         const labelOut = document.createElement("label");
         labelOut.classList.add("label-read");
