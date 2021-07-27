@@ -12,9 +12,13 @@ Book.prototype.giveInfo = function () {
   return `${this.name} is a book by ${this.author}. It has ${this.pages} and I have ${readText} it`
 }
 
-console.log((Object.getPrototypeOf(myLibrary[0])))
+Book.prototype.toogleRead = function() {
+  
+}
 
-console.log(myLibrary[0] instanceof Book)
+// console.log((Object.getPrototypeOf(myLibrary[0])))
+
+// console.log(myLibrary[0] instanceof Book)
 
 
 
@@ -26,27 +30,31 @@ function Book(name, author, pages, read) {
 }
 
 
-
 function addBookToLibrary(name, author, pages, read) {
   myLibrary[myLibrary.length] = Object.create(new Book(name, author, pages, read))
   updateDisplay();
 
-  document.querySelector("#container").removeEventListener("click", removeBook)
-
-  document.querySelector("#container").addEventListener("click", removeBook)
 }
+
 
 function updateDisplay() {
   document.querySelectorAll(".books").forEach(book => book.remove());
 
   myLibrary.forEach((book, index) => displayBook(book, index));
+
+  document.querySelector("#container").removeEventListener("click", removeBook);
+  document.querySelector("#container").addEventListener("click", removeBook);
+
 }
+
 
 function removeBook(e) {
   if (!e.target.classList.contains("remove-book-btn")) return;
   const targetIndex = e.target.dataset.index;
-  console.log(targetIndex)
+  myLibrary.splice(targetIndex, 1);
+  updateDisplay();
 } 
+
 
 function displayBook(book, index) {
   const newBook = document.createElement("div");
@@ -71,6 +79,7 @@ function displayBook(book, index) {
   document.querySelector("#container").appendChild(newBook);
 }
 
+
 function showNewBookForm() {
   document.forms[0].classList.remove("visually-hidden");
   document.querySelector("#popup-background").classList.remove("visually-hidden");
@@ -79,10 +88,12 @@ function showNewBookForm() {
   document.querySelector("#reset-btn").addEventListener("click", hideForm)
 }
 
+
 function hideForm() {
   document.forms[0].classList.add("visually-hidden");
   document.querySelector("#popup-background").classList.add("visually-hidden");
 }
+
 
 function getFormValues(e) {
   e.preventDefault();
@@ -91,6 +102,7 @@ function getFormValues(e) {
   form.reset();
   hideForm();
 }
+
 
 function capitalize(title) {
   let titleAsArray = title.split(" ");
