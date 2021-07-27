@@ -1,14 +1,5 @@
 let myLibrary = [];
 
-if(!localStorage.length) {
-  addBookToLibrary("NDDF", "Jean Genet", 386, true);
-  addBookToLibrary("the lord of the rings", "j. r. r. tolkien", 1178, false);  
-} else {
-  retrieve()
-}
-
-document.querySelector("#new-book-btn").addEventListener("click", showNewBookForm);
-
 Book.prototype.toggleRead = function(book) {
   this.read = !this.read;
   return updateStorage();
@@ -18,6 +9,16 @@ Book.prototype.giveInfo = function () {
   let readText = (this.read) ? "read" : "not read";
   return `${this.name} is a book by ${this.author}. It has ${this.pages} pages and I have ${readText} it`
 }
+
+if(!localStorage.length) {
+  addBookToLibrary("la nausée", "jean-Paul sartre", 249, true);
+  addBookToLibrary("À la recherche du temps perdu", "marcel proust", 4328, true);
+  addBookToLibrary("the lord of the rings", "j. r. r. tolkien", 1178, false);  
+} else {
+  retrieve()
+}
+
+document.querySelector("#new-book-btn").addEventListener("click", showNewBookForm);
 
 ///
 
