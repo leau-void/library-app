@@ -2,22 +2,24 @@ let myLibrary = [];
 
 if(!localStorage.length) {
   addBookToLibrary("NDDF", "Jean Genet", 386, true);
-  addBookToLibrary("the last of the summer wine", "adkdk asda", 342, false);  
+  addBookToLibrary("the lord of the rings", "j. r. r. tolkien", 1178, false);  
 } else {
   retrieve()
 }
 
-Book.prototype.toggleRead = function(book) {
-  return book.read = !book.read;
-}
-
 document.querySelector("#new-book-btn").addEventListener("click", showNewBookForm);
+
+Book.prototype.toggleRead = function(book) {
+  this.read = !this.read;
+  return updateStorage();
+}
 
 Book.prototype.giveInfo = function () {
   let readText = (this.read) ? "read" : "not read";
   return `${this.name} is a book by ${this.author}. It has ${this.pages} pages and I have ${readText} it`
 }
 
+///
 
 function updateStorage() {
   localStorage.clear();
@@ -35,6 +37,10 @@ function retrieve() {
   for (i = 0; i < storageLen; i++) {
     myLibrary.push(JSON.parse(localStorage.getItem("book" + i)));
   }
+
+  myLibrary.forEach(book => {
+    Object.setPrototypeOf(book, Book.prototype)
+  })
 
   updateDisplay();
 }
