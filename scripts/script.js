@@ -1,26 +1,49 @@
 let myLibrary = [];
 
+if(!localStorage.length) {
+  addBookToLibrary("NDDF", "Jean Genet", 386, true);
+  addBookToLibrary("the last of the summer wine", "adkdk asda", 342, false);  
+} else {
+  retrieve()
+}
+
 Book.prototype.toggleRead = function(book) {
   return book.read = !book.read;
 }
-
-
-addBookToLibrary("NDDF", "Jean Genet", 386, true);
-
-addBookToLibrary("the last of the summer wine", "adkdk asda", 342, false);
 
 document.querySelector("#new-book-btn").addEventListener("click", showNewBookForm);
 
 Book.prototype.giveInfo = function () {
   let readText = (this.read) ? "read" : "not read";
-  return `${this.name} is a book by ${this.author}. It has ${this.pages} and I have ${readText} it`
+  return `${this.name} is a book by ${this.author}. It has ${this.pages} pages and I have ${readText} it`
+}
+
+
+function updateStorage() {
+  localStorage.clear();
+
+  myLibrary.forEach((book, index) => {
+    localStorage.setItem(("book" + index), JSON.stringify(myLibrary[index]));
+  });
+}
+
+
+function retrieve() {
+
+  const storageLen = localStorage.length;
+
+  for (i = 0; i < storageLen; i++) {
+    myLibrary.push(JSON.parse(localStorage.getItem("book" + i)));
+  }
+
+  updateDisplay();
 }
 
 
 function Book(name, author, pages, read) {
   this.name = capitalize(name);
   this.author = capitalize(author);
-  this.pages = pages + " pages";
+  this.pages = pages;
   this.read = read;
 }
 
@@ -39,6 +62,7 @@ function updateDisplay() {
   document.querySelector("#container").removeEventListener("click", removeBook);
   document.querySelector("#container").addEventListener("click", removeBook);
 
+  updateStorage();
 }
 
 
@@ -77,8 +101,13 @@ function displayBook(book, index) {
       
     const displayKey = document.createElement("div");
     displayKey.classList.add(`${key}`);
-    displayKey.textContent = book[key];
-    newBook.appendChild(displayKey);
+    if (key === "pages") {
+      displayKey.textContent = book[key] + " pages";
+      newBook.appendChild(displayKey);
+    } else {
+      displayKey.textContent = book[key];
+      newBook.appendChild(displayKey);
+    }
     }
   }
 
