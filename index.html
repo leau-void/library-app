@@ -6,22 +6,45 @@
     <title>Leau's Library App</title>
     <link href="styles/style.css" rel="stylesheet" type="text/css">
     <script src="scripts/script.js" defer></script>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="popup-background" class="visually-hidden"></div>
-    <button id="new-book-btn">New Book</button>
+    <button id="new-book-btn">+</button>
     <form class="visually-hidden" id="new-book-form">
-      <input id="name" name="name">
-      <input id="author" name="author">
-      <input id="pages" type="number" min="1" name="pages">
+      <div>Add a book to your library</div>
+      <label>Title :
+      <input id="name" name="name" type="text">
+      </label>
+      <label>Author :
+      <input id="author" name="author" type="text">
+      </label>
+      <label>N° of pages :
+      <input id="pages" type="number" min="1" value=0 name="pages">
+      </label>
+      <label>Have you read this book yet?
       <input id="read" type="checkbox" name="read">
+      </label>
       <input type="submit" id="submit-btn" value="Add new book">
-      <input type="reset" id="reset-btn" value="X">
+      <input type="reset" id="reset-btn" value="✖">
       
     </form>
 
+    <div id="stats-div" class="visually-hidden">
+      <button id="close-stats-btn">✖</button>
+      <div id="books-total">Total Books: </div>
+      <div id="books-read">Total Books read: </div>
+      <div id="pages-read">Total Pages read: </div>
+      <div id="links">
+      <a id="github-link" href="https://github.com/leau-void">GitHub</a>
+      <a id="readme-link" href="#/">Readme</a>
+      </div>
+      </div>
+
     <div id="container">
+      <button id="stats-btn">Stats</button>
     </div>
 
   </body>

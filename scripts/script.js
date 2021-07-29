@@ -20,6 +20,8 @@ if(!localStorage.length) {
 
 document.querySelector("#new-book-btn").addEventListener("click", showNewBookForm);
 
+document.querySelector("#stats-btn").addEventListener("click", showStats)
+
 ///
 
 function updateStorage() {
@@ -119,7 +121,7 @@ function displayBook(book, index) {
   }
 
   const removeBtn = document.createElement("button");
-  removeBtn.textContent = "X";
+  removeBtn.textContent = "✖";
   removeBtn.classList.add("remove-book-btn");
   removeBtn.setAttribute("data-index", index);
   newBook.appendChild(removeBtn);
@@ -147,11 +149,44 @@ function hideForm() {
 function getFormValues(e) {
   e.preventDefault();
   const form = document.forms[0];
+  if (!form.name.value || !form.author.value) { 
+    form.reset();
+    return hideForm();
+  }
   addBookToLibrary(form.name.value, form.author.value, form.pages.value, form.read.checked);
   form.reset();
   hideForm();
 }
 
+function showStats() {
+  document.querySelector("#stats-div").classList.remove("visually-hidden");
+  document.querySelector("#popup-background").classList.remove("visually-hidden");
+  document.querySelector("#close-stats-btn").addEventListener("click", hideStats)
+  
+  const statsObj = getStats();
+  
+  document.querySelector("#books-total").textContent = document.querySelector("#books-total").textContent.substr(0, 13) + statsObj.totalBooks;
+  
+  document.querySelector("#books-read").textContent = document.querySelector("#books-read").textContent.substr(0, 18) + statsObj.totalBooksRead;
+
+  document.querySelector("#pages-read").textContent = document.querySelector("#pages-read").textContent.substr(0, 18) + statsObj.totalPagesRead;
+
+}
+
+function getStats() {
+    const totalBooks = myLibrary.length;
+    const readBooks = myLibrary.filter(book => book.read === true);
+    const totalBooksRead = readBooks.length;
+    const totalPagesRead = readBooks.reduce((total, book) => {
+      return total + Number(book.pages)
+    }, 0)
+    return {totalBooks, totalBooksRead, totalPagesRead};
+  }
+
+function hideStats() {
+  document.querySelector("#stats-div").classList.add("visually-hidden");
+  document.querySelector("#popup-background").classList.add("visually-hidden");
+}
 
 function capitalize(title) {
   let titleAsArray = title.split(" ");
