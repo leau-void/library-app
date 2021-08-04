@@ -1,14 +1,42 @@
 let myLibrary = [];
 
-Book.prototype.toggleRead = function(book) {
-  this.read = !this.read;
-  return updateStorage();
+
+// change constructor to class
+class Book {
+  constructor (name, author, pages, read) {
+    this.name = capitalize(name);
+    this.author = capitalize(author);
+    this.pages = pages;
+    this.read = read;
+  }
+
+  toggleRead(book) {
+    this.read = !this.read;
+    return updateStorage();
+  }
+  
+  giveInfo() {
+    let readText = (this.read) ? "read" : "not read";
+    return `${this.name} is a book by ${this.author}. It has ${this.pages} pages and I have ${readText} it`;
+  }
 }
 
-Book.prototype.giveInfo = function () {
-  let readText = (this.read) ? "read" : "not read";
-  return `${this.name} is a book by ${this.author}. It has ${this.pages} pages and I have ${readText} it`
-}
+// function Book(name, author, pages, read) {
+//   this.name = capitalize(name);
+//   this.author = capitalize(author);
+//   this.pages = pages;
+//   this.read = read;
+// }
+
+//Book.prototype.toggleRead = function(book) {
+//  this.read = !this.read;
+//  return updateStorage();
+//}
+
+// Book.prototype.giveInfo = function () {
+//   let readText = (this.read) ? "read" : "not read";
+//   return `${this.name} is a book by ${this.author}. It has ${this.pages} pages and I have ${readText} it`
+// }
 
 if(!localStorage.length) {
   addBookToLibrary("la nausée", "jean-Paul sartre", 249, true);
@@ -48,13 +76,6 @@ function retrieve() {
   updateDisplay();
 }
 
-
-function Book(name, author, pages, read) {
-  this.name = capitalize(name);
-  this.author = capitalize(author);
-  this.pages = pages;
-  this.read = read;
-}
 
 
 function addBookToLibrary(name, author, pages, read) {
