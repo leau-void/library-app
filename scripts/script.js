@@ -38,7 +38,7 @@ class Book {
 //   return `${this.name} is a book by ${this.author}. It has ${this.pages} pages and I have ${readText} it`
 // }
 
-if(!localStorage.length) {
+if(!('libraryApp' in localStorage)) {
   addBookToLibrary("la nausée", "jean-Paul sartre", 249, true);
   addBookToLibrary("À la recherche du temps perdu", "marcel proust", 4328, true);
   addBookToLibrary("the lord of the rings", "j. r. r. tolkien", 1178, false);  
