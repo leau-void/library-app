@@ -12,7 +12,7 @@ class Book {
 
   toggleRead(book) {
     this.read = !this.read;
-    return updateStorage();
+    return updateStorage(myLibrary, 'libraryApp');
   }
   
   giveInfo() {
@@ -43,7 +43,7 @@ if(!localStorage.length) {
   addBookToLibrary("À la recherche du temps perdu", "marcel proust", 4328, true);
   addBookToLibrary("the lord of the rings", "j. r. r. tolkien", 1178, false);  
 } else {
-  retrieve()
+  retrieveStorage()
 }
 
 document.querySelector("#new-book-btn").addEventListener("click", showNewBookForm);
@@ -52,22 +52,13 @@ document.querySelector("#stats-btn").addEventListener("click", showStats)
 
 ///
 
-function updateStorage() {
-  localStorage.clear();
-
-  myLibrary.forEach((book, index) => {
-    localStorage.setItem(("book" + index), JSON.stringify(myLibrary[index]));
-  });
+function updateStorage(array, whichApp) {
+  localStorage[whichApp] = JSON.stringify(array)
 }
 
 
-function retrieve() {
-
-  const storageLen = localStorage.length;
-
-  for (i = 0; i < storageLen; i++) {
-    myLibrary.push(JSON.parse(localStorage.getItem("book" + i)));
-  }
+function retrieveStorage() {
+  myLibrary = JSON.parse(localStorage.libraryApp)
 
   myLibrary.forEach(book => {
     Object.setPrototypeOf(book, Book.prototype)
@@ -92,7 +83,7 @@ function updateDisplay() {
   document.querySelector("#container").removeEventListener("click", removeBook);
   document.querySelector("#container").addEventListener("click", removeBook);
 
-  updateStorage();
+  updateStorage(myLibrary, 'libraryApp');
 }
 
 
